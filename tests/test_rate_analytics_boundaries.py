@@ -24,6 +24,12 @@ class RateAnalyticsBoundaryTests(unittest.TestCase):
         )
         self.assertTrue(beyond_threshold.anomalous)
 
+    def test_decimal_threshold_rounding(self):
+        result = assess_exchange_rate(1.1, [1.0, 1.0, 1.0], threshold_percent=10.0)
+        self.assertFalse(result.anomalous)
+        above = assess_exchange_rate(1.11, [1.0, 1.0, 1.0], threshold_percent=10.0)
+        self.assertTrue(above.anomalous)
+
     def test_custom_minimum_history(self):
         result = assess_exchange_rate(2.0, [2.0], min_history=1)
         self.assertFalse(result.anomalous)
