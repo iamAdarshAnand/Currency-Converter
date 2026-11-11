@@ -8,7 +8,7 @@ unusual observations for human review.
 from __future__ import annotations
 
 from dataclasses import dataclass
-from math import isfinite
+from math import isclose, isfinite
 from statistics import median
 from typing import Sequence
 
@@ -48,7 +48,7 @@ def assess_exchange_rate(
 
     baseline = median(historical_rates)
     deviation = abs(rate - baseline) / baseline * 100.0
-    anomalous = deviation > threshold_percent
+    anomalous = deviation > threshold_percent and not isclose(\n        deviation, threshold_percent, rel_tol=1e-12, abs_tol=1e-12\n    )
     explanation = (
         f"Rate differs from historical median by {deviation:.2f}%; "
         + ("review the provider, pair, and timestamp." if anomalous
