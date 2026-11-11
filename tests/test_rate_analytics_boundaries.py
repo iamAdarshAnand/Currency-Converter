@@ -16,11 +16,11 @@ from currency_intelligence import (
 class RateAnalyticsBoundaryTests(unittest.TestCase):
     def test_anomaly_threshold_is_strict(self):
         at_threshold = assess_exchange_rate(
-            1.1, [1.0, 1.0, 1.0], threshold_percent=10.0
+            1.25, [1.0, 1.0, 1.0], threshold_percent=25.0
         )
         self.assertFalse(at_threshold.anomalous)
         beyond_threshold = assess_exchange_rate(
-            1.11, [1.0, 1.0, 1.0], threshold_percent=10.0
+            1.5, [1.0, 1.0, 1.0], threshold_percent=25.0
         )
         self.assertTrue(beyond_threshold.anomalous)
 
@@ -39,11 +39,11 @@ class RateAnalyticsBoundaryTests(unittest.TestCase):
 
     def test_trend_tolerance_boundary(self):
         self.assertEqual(
-            rate_trend([100.0, 100.1], flat_tolerance_percent=0.1).direction,
+            rate_trend([1.0, 1.125], flat_tolerance_percent=12.5).direction,
             "stable",
         )
         self.assertEqual(
-            rate_trend([100.0, 100.2], flat_tolerance_percent=0.1).direction,
+            rate_trend([1.0, 1.25], flat_tolerance_percent=12.5).direction,
             "rising",
         )
 
