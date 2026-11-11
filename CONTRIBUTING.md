@@ -25,3 +25,14 @@ If two people genuinely work on the same commit, Git supports a `Co-authored-by:
 - [ ] Existing behavior is preserved unless the change intentionally fixes it.
 - [ ] Relevant manual or automated checks are documented.
 - [ ] No credentials or personal data are included.
+
+## Reproducible bug reports
+
+When reporting a conversion problem, include:
+
+- The source and target currency codes, and the input amount.
+- The expected result and the actual result, without exposing API credentials.
+- The application version or commit, Python version, and relevant error output.
+- Whether the issue reproduces consistently or only during network failures.
+
+For exchange-rate discrepancies, include the rate provider and the time of the rate lookup; rates can change between requests.
