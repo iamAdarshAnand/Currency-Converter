@@ -28,3 +28,23 @@ python -m unittest discover -s tests -v
 ```
 
 Python 3.9+; standard library only. This module is not yet wired into the original converter UI.
+
+## Integration guide for maintainers
+
+The analytics modules are intentionally opt-in. To integrate them into an existing converter:
+
+1. Validate the currency pair, quote direction, rate provider, and observation timestamp.
+2. Retrieve historical rates through the application's existing trusted data source.
+3. Call `assess_exchange_rate` from `ai_rate_guard.py` before displaying an anomaly warning.
+4. Call `rate_trend` and `rate_volatility` from `currency_intelligence.py` only when at least two comparable historical observations are available.
+5. Use `compare_rate_providers` only for contemporaneous quotes of the same currency pair.
+6. Treat analytics failures as nonfatal: the core currency-conversion functionality should continue to work.
+7. Clearly label these values as historical statistics, not AI forecasts or investment advice.
+
+### Maintainer acceptance checks
+
+- [ ] Normal conversion still works when analytics are disabled.
+- [ ] Missing or invalid historical data displays a helpful message without crashing the converter.
+- [ ] Tests pass with `python -m unittest discover -s tests -v`.
+- [ ] No API credentials or personal information are logged.
+- [ ] No claims are made about trained models or live-rate accuracy.
